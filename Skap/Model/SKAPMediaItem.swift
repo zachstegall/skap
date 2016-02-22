@@ -65,7 +65,41 @@ class SKAPMediaItem: NSObject, NSCoding {
 
     
     required init?(coder aDecoder: NSCoder) {
-        
+        mediaType = MPMediaType.init(rawValue: UInt(aDecoder.decodeObjectForKey("media_type") as! NSNumber))
+        mediaGenre = aDecoder.decodeObjectForKey("genre")
+        mediaBeatsPerMinute = aDecoder.decodeObjectForKey("bpm")
+        mediaPlayCount = aDecoder.decodeObjectForKey("play_cnt")
+        mediaLastPlayedDate = aDecoder.decodeObjectForKey("last_played_date")
+        mediaPersistentId = aDecoder.decodeObjectForKey("id")
+        mediaAlbumPersistentId = aDecoder.decodeObjectForKey("album_id")
+        mediaArtistPersistentId = aDecoder.decodeObjectForKey("artist_id")
+        mediaAlbumArtistPersistentId = aDecoder.decodeObjectForKey("album_artist_id")
+        mediaGenrePersistentId = aDecoder.decodeObjectForKey("genre_id")
+        mediaComposerPersistentId = aDecoder.decodeObjectForKey("composer_id")
+        mediaPodcastPersistentId = aDecoder.decodeObjectForKey("podcast_id")
+        mediaPlaylistGroup = aDecoder.decodeObjectForKey("playlist_grp")
+        mediaPlaylistPersistentId = aDecoder.decodeObjectForKey("playlist_id")
+        mediaTitle = aDecoder.decodeObjectForKey("title")
+        mediaAlbumTitle = aDecoder.decodeObjectForKey("album_title")
+        mediaArtist = aDecoder.decodeObjectForKey("artist")
+        mediaAlbumArtist = aDecoder.decodeObjectForKey("album_artist")
+        mediaComposer = aDecoder.decodeObjectForKey("composer")
+        mediaPlaybackDuration = aDecoder.decodeObjectForKey("playback_dur")
+        mediaAlbumTrackNumber = aDecoder.decodeObjectForKey("album_track_num")
+        mediaAlbumTrackCount = aDecoder.decodeObjectForKey("album_track_cnt")
+        mediaDiscNumber = aDecoder.decodeObjectForKey("disc_num")
+        mediaDiscCount = aDecoder.decodeObjectForKey("disc_cnt")
+        mediaArtwork = aDecoder.decodeObjectForKey("artwork")
+        mediaLyrics = aDecoder.decodeObjectForKey("lyrics")
+        mediaIsCompilation = aDecoder.decodeObjectForKey("is_compilation")
+        mediaReleaseDate = aDecoder.decodeObjectForKey("release_date")
+        mediaComments = aDecoder.decodeObjectForKey("comments")
+        mediaAssetURL = aDecoder.decodeObjectForKey("asset_url")
+        mediaIsCloudItem = aDecoder.decodeObjectForKey("is_icloud_item")
+        mediaSkipCount = aDecoder.decodeObjectForKey("skip_cnt")
+        mediaRating = aDecoder.decodeObjectForKey("rating")
+        mediaUserGrouping = aDecoder.decodeObjectForKey("user_grping")
+        mediaBookmarkTime = aDecoder.decodeObjectForKey("bookmark_time")
     }
     
     func encodeWithCoder(aCoder: NSCoder) {

@@ -44,7 +44,7 @@ class SKAPMediaItem: NSObject, NSCoding {
     var mediaAlbumTrackCount: AnyObject?
     var mediaDiscNumber: AnyObject?
     var mediaDiscCount: AnyObject?
-    var mediaArtwork: AnyObject?
+//    var mediaArtwork: AnyObject?
     var mediaLyrics: AnyObject?
     var mediaIsCompilation: AnyObject?
     var mediaReleaseDate: AnyObject?
@@ -89,7 +89,7 @@ class SKAPMediaItem: NSObject, NSCoding {
         mediaAlbumTrackCount = aDecoder.decodeObjectForKey("album_track_cnt")
         mediaDiscNumber = aDecoder.decodeObjectForKey("disc_num")
         mediaDiscCount = aDecoder.decodeObjectForKey("disc_cnt")
-        mediaArtwork = aDecoder.decodeObjectForKey("artwork")
+//        mediaArtwork = aDecoder.decodeObjectForKey("artwork")
         mediaLyrics = aDecoder.decodeObjectForKey("lyrics")
         mediaIsCompilation = aDecoder.decodeObjectForKey("is_compilation")
         mediaReleaseDate = aDecoder.decodeObjectForKey("release_date")
@@ -127,7 +127,7 @@ class SKAPMediaItem: NSObject, NSCoding {
         aCoder.encodeObject(mediaAlbumTrackCount, forKey: "album_track_cnt")
         aCoder.encodeObject(mediaDiscNumber, forKey: "disc_num")
         aCoder.encodeObject(mediaDiscCount, forKey: "disc_cnt")
-        aCoder.encodeObject(mediaArtwork, forKey: "artwork")
+//        aCoder.encodeObject(mediaArtwork, forKey: "artwork")
         aCoder.encodeObject(mediaLyrics, forKey: "lyrics")
         aCoder.encodeObject(mediaIsCompilation, forKey: "is_compilation")
         aCoder.encodeObject(mediaReleaseDate, forKey: "release_date")
@@ -169,7 +169,7 @@ class SKAPMediaItem: NSObject, NSCoding {
         mediaAlbumTrackCount = item.valueForProperty(MPMediaItemPropertyAlbumTrackCount)
         mediaDiscNumber = item.valueForProperty(MPMediaItemPropertyDiscNumber)
         mediaDiscCount = item.valueForProperty(MPMediaItemPropertyDiscCount)
-        mediaArtwork = item.valueForProperty(MPMediaItemPropertyArtwork)
+//        mediaArtwork = item.valueForProperty(MPMediaItemPropertyArtwork)
         mediaLyrics = item.valueForProperty(MPMediaItemPropertyLyrics)
         mediaIsCompilation = item.valueForProperty(MPMediaItemPropertyIsCompilation)
         mediaReleaseDate = item.valueForProperty(MPMediaItemPropertyReleaseDate)

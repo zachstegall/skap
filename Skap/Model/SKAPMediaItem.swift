@@ -13,97 +13,133 @@ import MediaPlayer
 class SKAPMediaItem: NSObject, NSCoding {
     
     // Categorical items
-    var mediaGenre: AnyObject?
-    var mediaBeatsPerMinute: AnyObject?
-    var mediaPlayCount: AnyObject?
-    var mediaLastPlayedDate: AnyObject?
+    var mediaGenre: NSString?
+    var mediaBeatsPerMinute: UInt
+    var mediaPlayCount: UInt
+    var mediaLastPlayedDate: NSDate?
     
     
     // Ids
-    var mediaPersistentId: AnyObject?
-    var mediaAlbumPersistentId: AnyObject?
-    var mediaArtistPersistentId: AnyObject?
-    var mediaAlbumArtistPersistentId: AnyObject?
-    var mediaGenrePersistentId: AnyObject?
-    var mediaComposerPersistentId: AnyObject?
-    var mediaPodcastPersistentId: AnyObject?
+    var mediaPersistentId: NSNumber?
+    var mediaAlbumPersistentId: NSNumber?
+    var mediaArtistPersistentId: NSNumber?
+    var mediaAlbumArtistPersistentId: NSNumber?
+    var mediaGenrePersistentId: NSNumber?
+    var mediaComposerPersistentId: NSNumber?
+    var mediaPodcastPersistentId: NSNumber?
     
     // Playlist
-    var mediaPlaylistGroup: AnyObject?
-    var mediaPlaylistPersistentId: AnyObject?
+    var mediaPlaylistGroup: NSString?
+    var mediaPlaylistPersistentId: NSNumber?
     
     // Misc
-    var mediaType: MPMediaType?
-    var mediaTitle: AnyObject?
-    var mediaAlbumTitle: AnyObject?
-    var mediaArtist: AnyObject?
-    var mediaAlbumArtist: AnyObject?
-    var mediaComposer: AnyObject?
-    var mediaPlaybackDuration: AnyObject?
-    var mediaAlbumTrackNumber: AnyObject?
-    var mediaAlbumTrackCount: AnyObject?
-    var mediaDiscNumber: AnyObject?
-    var mediaDiscCount: AnyObject?
-//    var mediaArtwork: AnyObject?
-    var mediaLyrics: AnyObject?
-    var mediaIsCompilation: AnyObject?
-    var mediaReleaseDate: AnyObject?
-    var mediaComments: AnyObject?
-    var mediaAssetURL: AnyObject?
-    var mediaIsCloudItem: AnyObject?
+    var mediaType: UInt
+    var mediaTitle: NSString?
+    var mediaAlbumTitle: NSString?
+    var mediaArtist: NSString?
+    var mediaAlbumArtist: NSString?
+    var mediaComposer: NSString?
+    var mediaPlaybackDuration: NSTimeInterval
+    var mediaAlbumTrackNumber: UInt
+    var mediaAlbumTrackCount: UInt
+    var mediaDiscNumber: UInt
+    var mediaDiscCount: UInt
+    var mediaArtwork: UIImage?
+    var mediaLyrics: NSString?
+    var mediaIsCompilation: Bool
+    var mediaReleaseDate: NSDate?
+    var mediaComments: NSString?
+    var mediaAssetURL: NSURL?
+    var mediaIsCloudItem: Bool
     
-    var mediaSkipCount: AnyObject?
-    var mediaRating: AnyObject?
-    var mediaUserGrouping: AnyObject?
-    var mediaBookmarkTime: AnyObject?
+    var mediaSkipCount: UInt
+    var mediaRating: UInt
+    var mediaUserGrouping: NSString?
+    var mediaBookmarkTime: NSTimeInterval
     
     
     
     override init() {
+        mediaType = 0
+        mediaGenre = nil
+        mediaBeatsPerMinute = 0
+        mediaPlayCount = 0
+        mediaLastPlayedDate = nil
+        mediaPersistentId = nil
+        mediaAlbumPersistentId = nil
+        mediaArtistPersistentId = nil
+        mediaAlbumArtistPersistentId = nil
+        mediaGenrePersistentId = nil
+        mediaComposerPersistentId = nil
+        mediaPodcastPersistentId = nil
+        mediaPlaylistGroup = nil
+        mediaPlaylistPersistentId = nil
+        mediaTitle = nil
+        mediaAlbumTitle = nil
+        mediaArtist = nil
+        mediaAlbumArtist = nil
+        mediaComposer = nil
+        mediaPlaybackDuration = 0
+        mediaAlbumTrackNumber = 0
+        mediaAlbumTrackCount = 0
+        mediaDiscNumber = 0
+        mediaDiscCount = 0
+        mediaArtwork = nil
+        mediaLyrics = nil
+        mediaIsCompilation = false
+        mediaReleaseDate = nil
+        mediaComments = nil
+        mediaAssetURL = nil
+        mediaIsCloudItem = false
+        mediaSkipCount = 0
+        mediaRating = 0
+        mediaUserGrouping = nil
+        mediaBookmarkTime = 0
+        
         super.init()
     }
 
     
     required init?(coder aDecoder: NSCoder) {
-        mediaType = MPMediaType.init(rawValue: UInt(aDecoder.decodeObjectForKey("media_type") as! NSNumber))
-        mediaGenre = aDecoder.decodeObjectForKey("genre")
-        mediaBeatsPerMinute = aDecoder.decodeObjectForKey("bpm")
-        mediaPlayCount = aDecoder.decodeObjectForKey("play_cnt")
-        mediaLastPlayedDate = aDecoder.decodeObjectForKey("last_played_date")
-        mediaPersistentId = aDecoder.decodeObjectForKey("id")
-        mediaAlbumPersistentId = aDecoder.decodeObjectForKey("album_id")
-        mediaArtistPersistentId = aDecoder.decodeObjectForKey("artist_id")
-        mediaAlbumArtistPersistentId = aDecoder.decodeObjectForKey("album_artist_id")
-        mediaGenrePersistentId = aDecoder.decodeObjectForKey("genre_id")
-        mediaComposerPersistentId = aDecoder.decodeObjectForKey("composer_id")
-        mediaPodcastPersistentId = aDecoder.decodeObjectForKey("podcast_id")
-        mediaPlaylistGroup = aDecoder.decodeObjectForKey("playlist_grp")
-        mediaPlaylistPersistentId = aDecoder.decodeObjectForKey("playlist_id")
-        mediaTitle = aDecoder.decodeObjectForKey("title")
-        mediaAlbumTitle = aDecoder.decodeObjectForKey("album_title")
-        mediaArtist = aDecoder.decodeObjectForKey("artist")
-        mediaAlbumArtist = aDecoder.decodeObjectForKey("album_artist")
-        mediaComposer = aDecoder.decodeObjectForKey("composer")
-        mediaPlaybackDuration = aDecoder.decodeObjectForKey("playback_dur")
-        mediaAlbumTrackNumber = aDecoder.decodeObjectForKey("album_track_num")
-        mediaAlbumTrackCount = aDecoder.decodeObjectForKey("album_track_cnt")
-        mediaDiscNumber = aDecoder.decodeObjectForKey("disc_num")
-        mediaDiscCount = aDecoder.decodeObjectForKey("disc_cnt")
-//        mediaArtwork = aDecoder.decodeObjectForKey("artwork")
-        mediaLyrics = aDecoder.decodeObjectForKey("lyrics")
-        mediaIsCompilation = aDecoder.decodeObjectForKey("is_compilation")
-        mediaReleaseDate = aDecoder.decodeObjectForKey("release_date")
-        mediaComments = aDecoder.decodeObjectForKey("comments")
-        mediaAssetURL = aDecoder.decodeObjectForKey("asset_url")
-        mediaIsCloudItem = aDecoder.decodeObjectForKey("is_icloud_item")
-        mediaSkipCount = aDecoder.decodeObjectForKey("skip_cnt")
-        mediaRating = aDecoder.decodeObjectForKey("rating")
-        mediaUserGrouping = aDecoder.decodeObjectForKey("user_grping")
-        mediaBookmarkTime = aDecoder.decodeObjectForKey("bookmark_time")
+        mediaType = (aDecoder.decodeObjectForKey("media_type") as? UInt)!
+        mediaGenre = aDecoder.decodeObjectForKey("genre") as? NSString
+        mediaBeatsPerMinute = (aDecoder.decodeObjectForKey("bpm") as? UInt)!
+        mediaPlayCount = (aDecoder.decodeObjectForKey("play_cnt") as? UInt)!
+        mediaLastPlayedDate = aDecoder.decodeObjectForKey("last_played_date") as? NSDate
+        mediaPersistentId = aDecoder.decodeObjectForKey("id") as? NSNumber
+        mediaAlbumPersistentId = aDecoder.decodeObjectForKey("album_id") as? NSNumber
+        mediaArtistPersistentId = aDecoder.decodeObjectForKey("artist_id") as? NSNumber
+        mediaAlbumArtistPersistentId = aDecoder.decodeObjectForKey("album_artist_id") as? NSNumber
+        mediaGenrePersistentId = aDecoder.decodeObjectForKey("genre_id") as? NSNumber
+        mediaComposerPersistentId = aDecoder.decodeObjectForKey("composer_id") as? NSNumber
+        mediaPodcastPersistentId = aDecoder.decodeObjectForKey("podcast_id") as? NSNumber
+        mediaPlaylistGroup = aDecoder.decodeObjectForKey("playlist_grp") as? NSString
+        mediaPlaylistPersistentId = aDecoder.decodeObjectForKey("playlist_id") as? NSNumber
+        mediaTitle = aDecoder.decodeObjectForKey("title") as? NSString
+        mediaAlbumTitle = aDecoder.decodeObjectForKey("album_title") as? NSString
+        mediaArtist = aDecoder.decodeObjectForKey("artist") as? NSString
+        mediaAlbumArtist = aDecoder.decodeObjectForKey("album_artist") as? NSString
+        mediaComposer = aDecoder.decodeObjectForKey("composer") as? NSString
+        mediaPlaybackDuration = (aDecoder.decodeObjectForKey("playback_dur") as? NSTimeInterval)!
+        mediaAlbumTrackNumber = (aDecoder.decodeObjectForKey("album_track_num") as? UInt)!
+        mediaAlbumTrackCount = (aDecoder.decodeObjectForKey("album_track_cnt") as? UInt)!
+        mediaDiscNumber = (aDecoder.decodeObjectForKey("disc_num") as? UInt)!
+        mediaDiscCount = (aDecoder.decodeObjectForKey("disc_cnt") as? UInt)!
+        mediaArtwork = aDecoder.decodeObjectForKey("artwork") as? UIImage
+        mediaLyrics = aDecoder.decodeObjectForKey("lyrics") as? NSString
+        mediaIsCompilation = (aDecoder.decodeObjectForKey("is_compilation") as? Bool)!
+        mediaReleaseDate = aDecoder.decodeObjectForKey("release_date") as? NSDate
+        mediaComments = aDecoder.decodeObjectForKey("comments") as? NSString
+        mediaAssetURL = aDecoder.decodeObjectForKey("asset_url") as? NSURL
+        mediaIsCloudItem = (aDecoder.decodeObjectForKey("is_icloud_item") as? Bool)!
+        mediaSkipCount = (aDecoder.decodeObjectForKey("skip_cnt") as? UInt)!
+        mediaRating = (aDecoder.decodeObjectForKey("rating") as? UInt)!
+        mediaUserGrouping = aDecoder.decodeObjectForKey("user_grping") as? NSString
+        mediaBookmarkTime = (aDecoder.decodeObjectForKey("bookmark_time") as? NSTimeInterval)!
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(NSNumber.init(unsignedInteger: (mediaType?.rawValue)!), forKey: "media_type")
+        aCoder.encodeObject(NSNumber.init(unsignedInteger: mediaType), forKey: "media_type")
         aCoder.encodeObject(mediaGenre, forKey: "genre")
         aCoder.encodeObject(mediaBeatsPerMinute, forKey: "bpm")
         aCoder.encodeObject(mediaPlayCount, forKey: "play_cnt")
@@ -127,7 +163,7 @@ class SKAPMediaItem: NSObject, NSCoding {
         aCoder.encodeObject(mediaAlbumTrackCount, forKey: "album_track_cnt")
         aCoder.encodeObject(mediaDiscNumber, forKey: "disc_num")
         aCoder.encodeObject(mediaDiscCount, forKey: "disc_cnt")
-//        aCoder.encodeObject(mediaArtwork, forKey: "artwork")
+        aCoder.encodeObject(mediaArtwork, forKey: "artwork")
         aCoder.encodeObject(mediaLyrics, forKey: "lyrics")
         aCoder.encodeObject(mediaIsCompilation, forKey: "is_compilation")
         aCoder.encodeObject(mediaReleaseDate, forKey: "release_date")
@@ -142,45 +178,45 @@ class SKAPMediaItem: NSObject, NSCoding {
     
     
     func set(item: MPMediaItem) {
-        mediaType = item.mediaType
-        mediaGenre = item.valueForProperty(MPMediaItemPropertyGenre)
-        mediaBeatsPerMinute = item.valueForProperty(MPMediaItemPropertyBeatsPerMinute)
-        mediaPlayCount = item.valueForProperty(MPMediaItemPropertyPlayCount)
-        mediaLastPlayedDate = item.valueForProperty(MPMediaItemPropertyLastPlayedDate)
+        mediaType = item.mediaType.rawValue
+        mediaGenre = item.valueForProperty(MPMediaItemPropertyGenre) as? NSString
+        mediaBeatsPerMinute = (item.valueForProperty(MPMediaItemPropertyBeatsPerMinute) as? UInt)!
+        mediaPlayCount = (item.valueForProperty(MPMediaItemPropertyPlayCount) as? UInt)!
+        mediaLastPlayedDate = item.valueForProperty(MPMediaItemPropertyLastPlayedDate) as? NSDate
         
-        mediaPersistentId = item.valueForProperty(MPMediaItemPropertyPersistentID)
-        mediaAlbumPersistentId = item.valueForProperty(MPMediaItemPropertyAlbumPersistentID)
-        mediaArtistPersistentId = item.valueForProperty(MPMediaItemPropertyArtistPersistentID)
-        mediaAlbumArtistPersistentId = item.valueForProperty(MPMediaItemPropertyAlbumArtistPersistentID)
-        mediaGenrePersistentId = item.valueForProperty(MPMediaItemPropertyGenrePersistentID)
-        mediaComposerPersistentId = item.valueForProperty(MPMediaItemPropertyComposerPersistentID)
-        mediaPodcastPersistentId = item.valueForProperty(MPMediaItemPropertyPodcastPersistentID)
+        mediaPersistentId = item.valueForProperty(MPMediaItemPropertyPersistentID) as? NSNumber
+        mediaAlbumPersistentId = item.valueForProperty(MPMediaItemPropertyAlbumPersistentID) as? NSNumber
+        mediaArtistPersistentId = item.valueForProperty(MPMediaItemPropertyArtistPersistentID) as? NSNumber
+        mediaAlbumArtistPersistentId = item.valueForProperty(MPMediaItemPropertyAlbumArtistPersistentID) as? NSNumber
+        mediaGenrePersistentId = item.valueForProperty(MPMediaItemPropertyGenrePersistentID) as? NSNumber
+        mediaComposerPersistentId = item.valueForProperty(MPMediaItemPropertyComposerPersistentID) as? NSNumber
+        mediaPodcastPersistentId = item.valueForProperty(MPMediaItemPropertyPodcastPersistentID) as? NSNumber
         
-        mediaPlaylistGroup = item.valueForProperty(MPMediaPlaylistPropertyName)
-        mediaPlaylistPersistentId = item.valueForProperty(MPMediaPlaylistPropertyPersistentID)
+        mediaPlaylistGroup = item.valueForProperty(MPMediaPlaylistPropertyName) as? NSString
+        mediaPlaylistPersistentId = item.valueForProperty(MPMediaPlaylistPropertyPersistentID) as? NSNumber
         
-        mediaTitle = item.valueForProperty(MPMediaItemPropertyTitle)
-        mediaAlbumTitle = item.valueForProperty(MPMediaItemPropertyAlbumTitle)
-        mediaArtist = item.valueForProperty(MPMediaItemPropertyArtist)
-        mediaAlbumArtist = item.valueForProperty(MPMediaItemPropertyAlbumArtist)
-        mediaComposer = item.valueForProperty(MPMediaItemPropertyComposer)
-        mediaPlaybackDuration = item.valueForProperty(MPMediaItemPropertyPlaybackDuration)
-        mediaAlbumTrackNumber = item.valueForProperty(MPMediaItemPropertyAlbumTrackNumber)
-        mediaAlbumTrackCount = item.valueForProperty(MPMediaItemPropertyAlbumTrackCount)
-        mediaDiscNumber = item.valueForProperty(MPMediaItemPropertyDiscNumber)
-        mediaDiscCount = item.valueForProperty(MPMediaItemPropertyDiscCount)
-//        mediaArtwork = item.valueForProperty(MPMediaItemPropertyArtwork)
-        mediaLyrics = item.valueForProperty(MPMediaItemPropertyLyrics)
-        mediaIsCompilation = item.valueForProperty(MPMediaItemPropertyIsCompilation)
-        mediaReleaseDate = item.valueForProperty(MPMediaItemPropertyReleaseDate)
-        mediaComments = item.valueForProperty(MPMediaItemPropertyComments)
-        mediaAssetURL = item.valueForProperty(MPMediaItemPropertyAssetURL)
-        mediaIsCloudItem = item.valueForProperty(MPMediaItemPropertyIsCloudItem)
+        mediaTitle = item.valueForProperty(MPMediaItemPropertyTitle) as? NSString
+        mediaAlbumTitle = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as? NSString
+        mediaArtist = item.valueForProperty(MPMediaItemPropertyArtist) as? NSString
+        mediaAlbumArtist = item.valueForProperty(MPMediaItemPropertyAlbumArtist) as? NSString
+        mediaComposer = item.valueForProperty(MPMediaItemPropertyComposer) as? NSString
+        mediaPlaybackDuration = (item.valueForProperty(MPMediaItemPropertyPlaybackDuration) as? NSTimeInterval)!
+        mediaAlbumTrackNumber = (item.valueForProperty(MPMediaItemPropertyAlbumTrackNumber) as? UInt)!
+        mediaAlbumTrackCount = (item.valueForProperty(MPMediaItemPropertyAlbumTrackCount) as? UInt)!
+        mediaDiscNumber = (item.valueForProperty(MPMediaItemPropertyDiscNumber) as? UInt)!
+        mediaDiscCount = (item.valueForProperty(MPMediaItemPropertyDiscCount) as? UInt)!
+        mediaArtwork = item.valueForProperty(MPMediaItemPropertyArtwork) as? UIImage
+        mediaLyrics = item.valueForProperty(MPMediaItemPropertyLyrics) as? NSString
+        mediaIsCompilation = (item.valueForProperty(MPMediaItemPropertyIsCompilation) as? Bool)!
+        mediaReleaseDate = item.valueForProperty(MPMediaItemPropertyReleaseDate) as? NSDate
+        mediaComments = item.valueForProperty(MPMediaItemPropertyComments) as? NSString
+        mediaAssetURL = item.valueForProperty(MPMediaItemPropertyAssetURL) as? NSURL
+        mediaIsCloudItem = (item.valueForProperty(MPMediaItemPropertyIsCloudItem) as? Bool)!
         
-        mediaSkipCount = item.valueForProperty(MPMediaItemPropertySkipCount)
-        mediaRating = item.valueForProperty(MPMediaItemPropertyRating)
-        mediaUserGrouping = item.valueForProperty(MPMediaItemPropertyUserGrouping)
-        mediaBookmarkTime = item.valueForProperty(MPMediaItemPropertyBookmarkTime)
+        mediaSkipCount = (item.valueForProperty(MPMediaItemPropertySkipCount) as? UInt)!
+        mediaRating = (item.valueForProperty(MPMediaItemPropertyRating) as? UInt)!
+        mediaUserGrouping = item.valueForProperty(MPMediaItemPropertyUserGrouping) as? NSString
+        mediaBookmarkTime = (item.valueForProperty(MPMediaItemPropertyBookmarkTime) as? NSTimeInterval)!
     }
     
 }

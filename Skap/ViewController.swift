@@ -11,7 +11,7 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
-    var sessionPlayed: Dictionary<Int, SKAPMediaItem>?
+    var sessionPlayed: Dictionary<NSNumber, SKAPMediaItem>?
     let sessionPlayedKey = "session_played"
 
     override func viewDidLoad() {
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         let defaults = NSUserDefaults.standardUserDefaults()
         if (defaults.valueForKey(sessionPlayedKey) != nil) {
             let data: NSData = (defaults.objectForKey(sessionPlayedKey) as? NSData)!
-            sessionPlayed = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Dictionary<Int, SKAPMediaItem>
+            sessionPlayed = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Dictionary<NSNumber, SKAPMediaItem>
         }
     }
     
@@ -83,11 +83,11 @@ class ViewController: UIViewController {
     
     func insertRecentlyPlayedIntoSession(recPlayed: [SKAPMediaItem]) {
         if (sessionPlayed == nil) {
-            sessionPlayed = Dictionary<Int, SKAPMediaItem>()
+            sessionPlayed = Dictionary<NSNumber, SKAPMediaItem>()
         }
         
         for item in recPlayed {
-            sessionPlayed?.updateValue(item, forKey: (item.mediaPersistentId as! NSNumber).integerValue)
+            sessionPlayed?.updateValue(item, forKey: item.mediaPersistentId!)
         }
     }
     

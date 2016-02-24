@@ -11,17 +11,14 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
-    var sessionPlayed: AnyObject?
-    var sessionTimestamp: Int64?
-    var sessionIds: AnyObject?
+    var sessionPlayed: Dictionary<Int, SKAPMediaItem>?
+    let sessionPlayedKey = "session_played"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        loadIdsFromDisk()
-        sessionTimestamp = Util.getCurrentTimestampMS()
-        sessionIds?.addObject(NSNumber.init(longLong: sessionTimestamp!))
+        loadFromDisk()
         grabRecentlyPlayed()
     }
 
@@ -30,23 +27,20 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func loadFromDisk(ts: Int64) {
+    func loadFromDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        var key = "session_played"
-        key.appendContentsOf(String(format: "%llu", ts))
-        sessionPlayed = defaults.objectForKey(key)
-    }
-    
-    func loadIdsFromDisk() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        sessionIds = defaults.objectForKey("session_ids")
+        if (defaults.valueForKey(sessionPlayedKey) != nil) {
+            let data: NSData = (defaults.objectForKey(sessionPlayedKey) as? NSData)!
+            sessionPlayed = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Dictionary<Int, SKAPMediaItem>
+        }
     }
     
     func saveToDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(sessionPlayed, forKey: "session_played")
-        defaults.setObject(NSNumber.init(longLong: sessionTimestamp!), forKey: "session_timestamp")
-        defaults.setObject(sessionIds, forKey: "session_ids")
+        if (sessionPlayed != nil) {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(sessionPlayed!)
+            defaults.setObject(data, forKey: sessionPlayedKey)
+        }
     }
     
     
@@ -54,7 +48,6 @@ class ViewController: UIViewController {
     
     
     func grabRecentlyPlayed() {
-        
         let collections = MPMediaQuery.playlistsQuery().collections
         let recentlyPlayed = "Recently Played"
         if collections != nil {
@@ -69,7 +62,7 @@ class ViewController: UIViewController {
                         recentlyPlayedItems.append(newitem)
                     }
                     
-                    sessionPlayed = recentlyPlayedItems
+                    insertRecentlyPlayedIntoSession(recentlyPlayedItems)
                     saveToDisk()
                 }
                 
@@ -78,7 +71,6 @@ class ViewController: UIViewController {
                 }
             }
         }
-        
     }
     
     
@@ -87,7 +79,18 @@ class ViewController: UIViewController {
         skapItem.set(item)
         return skapItem
     }
-
-
+    
+    
+    func insertRecentlyPlayedIntoSession(recPlayed: [SKAPMediaItem]) {
+        if (sessionPlayed == nil) {
+            sessionPlayed = Dictionary<Int, SKAPMediaItem>()
+        }
+        
+        for item in recPlayed {
+            sessionPlayed?.updateValue(item, forKey: (item.mediaPersistentId as! NSNumber).integerValue)
+        }
+    }
+    
+    
 }
 

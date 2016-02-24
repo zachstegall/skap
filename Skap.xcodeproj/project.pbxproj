@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		81AD5AA11C7B60B50063DE63 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AD5AA01C7B60B50063DE63 /* API.swift */; };
 		CD82708C1C703EE600AE644E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD82708B1C703EE600AE644E /* AppDelegate.swift */; };
 		CD82708E1C703EE600AE644E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD82708D1C703EE600AE644E /* ViewController.swift */; };
 		CD8270911C703EE600AE644E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD82708F1C703EE600AE644E /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		81AD5AA01C7B60B50063DE63 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = Network/API.swift; sourceTree = "<group>"; };
 		CD8270881C703EE600AE644E /* Skap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD82708B1C703EE600AE644E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD82708D1C703EE600AE644E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		81AD5A9F1C7B609E0063DE63 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				81AD5AA01C7B60B50063DE63 /* API.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		CD82707F1C703EE600AE644E = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +72,7 @@
 				CD82708D1C703EE600AE644E /* ViewController.swift */,
 				CD8270A01C795F2A00AE644E /* Util.swift */,
 				CD82709D1C705CD000AE644E /* Model */,
+				81AD5A9F1C7B609E0063DE63 /* Network */,
 				CD82708F1C703EE600AE644E /* Main.storyboard */,
 				CD8270921C703EE600AE644E /* Assets.xcassets */,
 				CD8270941C703EE600AE644E /* LaunchScreen.storyboard */,
@@ -158,6 +169,7 @@
 				CD82708C1C703EE600AE644E /* AppDelegate.swift in Sources */,
 				CD82709F1C705D8400AE644E /* SKAPMediaItem.swift in Sources */,
 				CD8270A11C795F2A00AE644E /* Util.swift in Sources */,
+				81AD5AA11C7B60B50063DE63 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +319,7 @@
 				CD82709C1C703EE600AE644E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

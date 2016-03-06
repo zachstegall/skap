@@ -11,15 +11,26 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
-    var sessionPlayed: Dictionary<NSNumber, SKAPMediaItem>?
-    let sessionPlayedKey = "session_played"
-
+    var userId: NSUUID = NSUUID()
+    var sessionPlayed: Dictionary<Int, SKAPMediaItem>?
+    var allSongIds: Set<Int> = Set<Int>()
+    var lastPostedTs: Int = 0
+    
+    let allSongIdsKey = "all_song_ids"
+    let userIdKey = "user_id"
+    let lastPostedTsKey = "last_posted_ts"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         loadFromDisk()
         grabRecentlyPlayed()
+//        API.syncGetSongs { (items) -> Void in
+//            if (items != nil) {
+//                NSLog("Items: %@", items!)
+//            }
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,18 +40,27 @@ class ViewController: UIViewController {
     
     func loadFromDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        if (defaults.valueForKey(sessionPlayedKey) != nil) {
-            let data: NSData = (defaults.objectForKey(sessionPlayedKey) as? NSData)!
-            sessionPlayed = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Dictionary<NSNumber, SKAPMediaItem>
+        if (defaults.valueForKey(userIdKey) != nil) {
+            let userIdString = defaults.objectForKey(userIdKey) as! String
+            userId = NSUUID.init(UUIDString: userIdString)!
+        }
+        if (defaults.valueForKey(allSongIdsKey) != nil) {
+            let data: NSData = (defaults.objectForKey(allSongIdsKey) as? NSData)!
+            allSongIds = (NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Set<Int>)!
+        }
+        if (defaults.valueForKey(lastPostedTsKey) != nil) {
+            lastPostedTs = defaults.integerForKey(lastPostedTsKey)
         }
     }
     
     func saveToDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        if (sessionPlayed != nil) {
-            let data = NSKeyedArchiver.archivedDataWithRootObject(sessionPlayed!)
-            defaults.setObject(data, forKey: sessionPlayedKey)
-        }
+        defaults.setObject(userId.UUIDString, forKey: userIdKey)
+        
+        let data = NSKeyedArchiver.archivedDataWithRootObject(allSongIds)
+        defaults.setObject(data, forKey: allSongIdsKey)
+        
+        defaults.setInteger(lastPostedTs, forKey: lastPostedTsKey)
     }
     
     
@@ -57,13 +77,35 @@ class ViewController: UIViewController {
                 if playlistName as! String == recentlyPlayed {
                     foundRecentlyPlayed = true
                     var recentlyPlayedItems = [SKAPMediaItem]()
+                    let toUpdate = NSMutableArray()
+                    var toUpdateIds = Set<Int>()
+                    let toAdd = NSMutableArray()
+                    var ts = 0
                     for item in collection.items {
-                        let newitem = parseMediaItem(item)
-                        recentlyPlayedItems.append(newitem)
+                        let skapitem = parseMediaItem(item)
+                        
+                        ts = max(ts, skapitem.mediaLastPlayedTs)
+                        
+                        if (skapitem.mediaLastPlayedTs > lastPostedTs) {
+                            if (allSongIds.contains(skapitem.mediaPersistentId)) {
+                                if (!toUpdateIds.contains(skapitem.mediaPersistentId)) {
+                                    toUpdate.addObject(skapitem)
+                                    toUpdateIds.insert(skapitem.mediaPersistentId)
+                                }
+                            } else {
+                                toAdd.addObject(skapitem)
+                            }
+                            
+                            allSongIds.insert(skapitem.mediaPersistentId)
+                        }
+                        
+                        recentlyPlayedItems.append(skapitem)
                     }
                     
-                    insertRecentlyPlayedIntoSession(recentlyPlayedItems)
+                    lastPostedTs = ts
                     saveToDisk()
+                    insertRecentlyPlayedIntoSession(recentlyPlayedItems)
+                    insertIntoDatabase(toAdd, update: toUpdate)
                 }
                 
                 if foundRecentlyPlayed {
@@ -83,11 +125,22 @@ class ViewController: UIViewController {
     
     func insertRecentlyPlayedIntoSession(recPlayed: [SKAPMediaItem]) {
         if (sessionPlayed == nil) {
-            sessionPlayed = Dictionary<NSNumber, SKAPMediaItem>()
+            sessionPlayed = Dictionary<Int, SKAPMediaItem>()
         }
         
         for item in recPlayed {
-            sessionPlayed?.updateValue(item, forKey: item.mediaPersistentId!)
+            sessionPlayed?.updateValue(item, forKey: item.mediaPersistentId)
+        }
+    }
+    
+    
+    func insertIntoDatabase(add: NSArray, update: NSArray) {
+        if (add.count > 0) {
+            API.syncPostSongs(add, user: userId)
+        }
+        
+        if (update.count > 0) {
+            API.syncPutSongs(update, user: userId)
         }
     }
     

@@ -10,11 +10,8 @@ import Foundation
 
 
 let apiBase = ""
-let apiGet = "song/list.php"
-let apiCreate = "song/create.php"
-let apiCreateMany = "song/createmany.php"
-let apiUpdate = "song/update.php"
-let apiUpdateMany = "song/updatemany.php"
+let apiSong = "song/one.php"
+let apiSongList = "song/many.php"
 
 let httpMethodGET = "GET"
 let httpMethodPOST = "POST"
@@ -38,7 +35,7 @@ class API {
     }
     private class func getSongs(syncRequest: Bool, completion: (Array<SKAPMediaItem>?) -> Void) {
         func submitRequest() {
-            serverRequest(apiString(apiGet), httpMethod: httpMethodGET, params: nil) { (response) -> Void in
+            serverRequest(apiString(apiSongList), httpMethod: httpMethodGET, params: nil) { (response) -> Void in
                 if (response != nil) {
                     NSLog("Response: %@", response!)
                     completion(nil)
@@ -67,7 +64,7 @@ class API {
     }
     private class func putSong(syncRequest: Bool, song: SKAPMediaItem, user: NSUUID) {
         func submitRequest() {
-            serverRequest(apiString(apiUpdate), httpMethod: httpMethodPUT, params: putSongParams(song, user: user)) { (response) -> Void in
+            serverRequest(apiString(apiSong), httpMethod: httpMethodPUT, params: putSongParams(song, user: user)) { (response) -> Void in
                 if (response != nil) {
                     NSLog("Response: %@", response!)
                 }
@@ -97,7 +94,7 @@ class API {
                 let ps = putSongParams(song as! SKAPMediaItem, user: user)
                 paramSongs.addObject(ps)
             }
-            serverRequest(apiString(apiUpdateMany), httpMethod: httpMethodPUT, params: NSDictionary.init(object: paramSongs, forKey: "songs")) { (response) -> Void in
+            serverRequest(apiString(apiSongList), httpMethod: httpMethodPUT, params: NSDictionary.init(object: paramSongs, forKey: "songs")) { (response) -> Void in
                 if (response != nil) {
                     NSLog("Response: %@", response!)
                 }
@@ -138,7 +135,7 @@ class API {
     }
     private class func postSong(syncRequest: Bool, song: SKAPMediaItem, user: NSUUID) {
         func submitRequest() {
-            serverRequest(apiString(apiCreate), httpMethod: httpMethodPOST, params: postSongParams(song, user: user)) { (response) -> Void in
+            serverRequest(apiString(apiSong), httpMethod: httpMethodPOST, params: postSongParams(song, user: user)) { (response) -> Void in
                 if (response != nil) {
                     NSLog("Response: %@", response!)
                 }
@@ -167,7 +164,7 @@ class API {
                 let ps = postSongParams(song as! SKAPMediaItem, user: user)
                 paramSongs.addObject(ps)
             }
-            serverRequest(apiString(apiCreateMany), httpMethod: httpMethodPOST, params: NSDictionary.init(object: paramSongs, forKey: "songs")) { (response) -> Void in
+            serverRequest(apiString(apiSongList), httpMethod: httpMethodPOST, params: NSDictionary.init(object: paramSongs, forKey: "songs")) { (response) -> Void in
                 if (response != nil) {
                     NSLog("Response: %@", response!)
                 }

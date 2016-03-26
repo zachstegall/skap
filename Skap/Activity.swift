@@ -1,49 +1,29 @@
 //
-//  ViewController.swift
+//  Activity.swift
 //  Skap
 //
-//  Created by Zachary Stegall on 2/13/16.
+//  Created by Zachary Stegall on 3/26/16.
 //  Copyright © 2016 Zachary Stegall. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import MediaPlayer
 
-class ViewController: UIViewController {
-    
-    var userId: NSUUID = NSUUID()
-    var sessionPlayed: Dictionary<Int, SKAPMediaItem>?
-    var allSongIds: Set<Int> = Set<Int>()
-    var lastPostedTs: Int = 0
-    
-    let allSongIdsKey = "all_song_ids"
-    let userIdKey = "user_id"
-    let lastPostedTsKey = "last_posted_ts"
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
-        Activity.loadFromDisk()
-        Activity.grabRecentlyPlayed()
-        //loadFromDisk()
-        //grabRecentlyPlayed()
-//        API.syncGetSongs { (items) -> Void in
-//            if (items != nil) {
-//                NSLog("Items: %@", items!)
-//            }
-//        }
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+class Activity {
+    
+    static var userId: NSUUID = NSUUID()
+    static var sessionPlayed: Dictionary<Int, SKAPMediaItem>?
+    static var allSongIds: Set<Int> = Set<Int>()
+    static var lastPostedTs: Int = 0
+    
+    static let allSongIdsKey = "all_song_ids"
+    static let userIdKey = "user_id"
+    static let lastPostedTsKey = "last_posted_ts"
     
     
-    /*
-    func loadFromDisk() {
+    
+    class func loadFromDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
         if (defaults.valueForKey(userIdKey) != nil) {
             let userIdString = defaults.objectForKey(userIdKey) as! String
@@ -58,7 +38,8 @@ class ViewController: UIViewController {
         }
     }
     
-    func saveToDisk() {
+    
+    private class func saveToDisk() {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(userId.UUIDString, forKey: userIdKey)
         
@@ -70,9 +51,7 @@ class ViewController: UIViewController {
     
     
     
-    
-    
-    func grabRecentlyPlayed() {
+    class func grabRecentlyPlayed() {
         let collections = MPMediaQuery.playlistsQuery().collections
         let recentlyPlayed = "Recently Played"
         if collections != nil {
@@ -121,14 +100,15 @@ class ViewController: UIViewController {
     }
     
     
-    func parseMediaItem(item: MPMediaItem) -> SKAPMediaItem {
+    
+    private class func parseMediaItem(item: MPMediaItem) -> SKAPMediaItem {
         let skapItem = SKAPMediaItem.init()
         skapItem.set(item)
         return skapItem
     }
     
     
-    func insertRecentlyPlayedIntoSession(recPlayed: [SKAPMediaItem]) {
+    private class func insertRecentlyPlayedIntoSession(recPlayed: [SKAPMediaItem]) {
         if (sessionPlayed == nil) {
             sessionPlayed = Dictionary<Int, SKAPMediaItem>()
         }
@@ -139,7 +119,7 @@ class ViewController: UIViewController {
     }
     
     
-    func insertIntoDatabase(add: NSArray, update: NSArray) {
+    private class func insertIntoDatabase(add: NSArray, update: NSArray) {
         if (add.count > 0) {
             API.syncPostSongs(add, user: userId)
         }
@@ -148,8 +128,5 @@ class ViewController: UIViewController {
             API.syncPutSongs(update, user: userId)
         }
     }
-    */
-    
     
 }
-

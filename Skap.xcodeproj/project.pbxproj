@@ -15,6 +15,7 @@
 		CD8270961C703EE600AE644E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD8270941C703EE600AE644E /* LaunchScreen.storyboard */; };
 		CD82709F1C705D8400AE644E /* SKAPMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD82709E1C705D8400AE644E /* SKAPMediaItem.swift */; };
 		CD8270A11C795F2A00AE644E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8270A01C795F2A00AE644E /* Util.swift */; };
+		CD8270A31CA72A6700AE644E /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8270A21CA72A6700AE644E /* Activity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		CD8270971C703EE600AE644E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD82709E1C705D8400AE644E /* SKAPMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKAPMediaItem.swift; path = Model/SKAPMediaItem.swift; sourceTree = "<group>"; };
 		CD8270A01C795F2A00AE644E /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		CD8270A21CA72A6700AE644E /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				CD82708B1C703EE600AE644E /* AppDelegate.swift */,
 				CD82708D1C703EE600AE644E /* ViewController.swift */,
 				CD8270A01C795F2A00AE644E /* Util.swift */,
+				CD8270A21CA72A6700AE644E /* Activity.swift */,
 				CD82709D1C705CD000AE644E /* Model */,
 				81AD5A9F1C7B609E0063DE63 /* Network */,
 				CD82708F1C703EE600AE644E /* Main.storyboard */,
@@ -165,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD8270A31CA72A6700AE644E /* Activity.swift in Sources */,
 				CD82708E1C703EE600AE644E /* ViewController.swift in Sources */,
 				CD82708C1C703EE600AE644E /* AppDelegate.swift in Sources */,
 				CD82709F1C705D8400AE644E /* SKAPMediaItem.swift in Sources */,
